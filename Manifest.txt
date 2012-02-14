@@ -6,6 +6,7 @@ License.txt
 Manifest.txt
 README.rdoc
 Rakefile
+examples/alpha_blend.rb
 examples/box.png
 examples/box_in_scene.png
 examples/contours/bitmap-contours-with-labels.png
@@ -25,6 +26,7 @@ examples/match_kdtree.rb
 examples/paint.rb
 examples/snake.rb
 examples/stuff.jpg
+examples/tiffany.jpg
 ext/opencv/curve.cpp
 ext/opencv/curve.h
 ext/opencv/cvavgcomp.cpp
@@ -108,6 +110,7 @@ ext/opencv/iplconvkernel.h
 ext/opencv/iplimage.cpp
 ext/opencv/iplimage.h
 ext/opencv/lib/opencv.rb
+ext/opencv/lib/opencv/psyched_yaml.rb
 ext/opencv/lib/opencv/version.rb
 ext/opencv/mouseevent.cpp
 ext/opencv/mouseevent.h
@@ -125,9 +128,6 @@ images/CvMat_sub_rect.png
 images/CvSeq_relationmap.png
 images/face_detect_from_lena.jpg
 opencv.gemspec
-setup/setup.cygwin.rb
-setup/setup.mingw.rb
-setup/setup.mswin32.rb
 test/helper.rb
 test/runner.rb
 test/samples/airplane.jpg
