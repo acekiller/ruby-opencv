@@ -134,6 +134,10 @@ extern "C" {
 #include "trackbar.h"
 #include "mouseevent.h"
 
+#include "keypoint.h"
+#include "featuredetector.h"
+#include "fastfeaturedetector.h"
+
 // memory management wrapper
 #define RB_CVALLOC(type) (type*)rb_cvAlloc(sizeof(type))
 

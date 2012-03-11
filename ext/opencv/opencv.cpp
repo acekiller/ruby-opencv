@@ -690,6 +690,9 @@ extern "C" {
     mOpenCV::mGUI::cTrackbar::define_ruby_class();
     mOpenCV::mGUI::cMouseEvent::define_ruby_class();
 
+    mOpenCV::cKeyPoint::define_ruby_class();
+    mOpenCV::mFeatureDetector::define_ruby_module();
+    mOpenCV::cFastFeatureDetector::define_ruby_class();
 #ifdef HAVE_ML_H
     /* feature support.
        mOpenCV::mMachineLearning::define_ruby_module();
