@@ -245,9 +245,16 @@ __NAMESPACE_END_CVMAT
 inline CvMat*
 CVMAT(VALUE object)
 {
-  CvMat *ptr, stub;
-  Data_Get_Struct(object, CvMat, ptr);
-  return cvGetMat(ptr, &stub);
+  CvArr* ptr = DATA_PTR(object);
+  if (CV_IS_IMAGE(ptr)) {
+    CvMat stub;
+    return cvGetMat((IplImage*)ptr, &stub);
+  }
+  else if (CV_IS_MAT(ptr)) {
+    return (CvMat*)ptr;
+  }
+  raise_typeerror(object, cCvMat::rb_class());
+  return NULL;
 }
 
 inline CvMat*

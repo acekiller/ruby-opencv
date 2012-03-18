@@ -92,7 +92,8 @@ rb_detect(int argc, VALUE *argv, VALUE self)
   rb_scan_args(argc, argv, "11", &image, &mask);
   cv::FeatureDetector *ptr = FASTFEATUREDETECTOR(self);
   std::vector<cv::KeyPoint> keypoints;
-  cv::Mat mat(CVMAT_WITH_CHECK(image)); // TODO: IplImage is OK?
+  cv::Mat mat(CVMAT_WITH_CHECK(image));
+
   if (NIL_P(mask)) {
     ptr->detect(mat, keypoints);
   }
@@ -100,7 +101,7 @@ rb_detect(int argc, VALUE *argv, VALUE self)
     cv::Mat mask_mat(MASK(mask));
     ptr->detect(mat, keypoints, mask_mat);
   }
-
+  
   size_t size = keypoints.size();
   VALUE kp_result = rb_ary_new2(size);
   for (size_t i = 0; i < size; ++i) {

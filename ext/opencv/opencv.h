@@ -220,7 +220,7 @@ CVARR_WITH_CHECK(VALUE object)
     raise_compatible_typeerror(object, (char*)"CvArr");
   }
   return NULL;
-}  
+}
 
 inline VALUE
 OPENCV_OBJECT(VALUE klass, void *ptr)
