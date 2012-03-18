@@ -39,14 +39,14 @@ class TestFastFeatureDetector < OpenCVTestCase
     kp1.each {|kp|
       assert_equal(KeyPoint, kp.class)
     }
-    assert_equal(3291, kp1.size)
+    assert_in_delta(3291, kp1.size, 3291 * 0.1)
 
     kp1 = @detector1.detect(mat, mask)
     assert_equal(Array, kp1.class)
     kp1.each {|kp|
       assert_equal(KeyPoint, kp.class)
     }
-    assert_equal(1572, kp1.size)
+    assert_in_delta(1572, kp1.size, 1572 * 0.1)
 
 
     kp2 = @detector2.detect(mat)
@@ -54,29 +54,29 @@ class TestFastFeatureDetector < OpenCVTestCase
     kp2.each {|kp|
       assert_equal(KeyPoint, kp.class)
     }
-    assert_equal(30, kp2.size)
+    assert_in_delta(30, kp2.size, 30 * 0.1)
 
     kp2 = @detector2.detect(mat, mask)
     assert_equal(Array, kp2.class)
     kp2.each {|kp|
       assert_equal(KeyPoint, kp.class)
     }
-    assert_equal(8, kp2.size)
-
+    assert_in_delta(8, kp2.size, (8 * 0.1).ceil)
+    
 
     kp3 = @detector3.detect(mat)
     assert_equal(Array, kp3.class)
     kp3.each {|kp|
       assert_equal(KeyPoint, kp.class)
     }
-    assert_equal(55, kp3.size)
+    assert_in_delta(55, kp3.size, 55 * 0.1)
 
     kp3 = @detector3.detect(mat, mask)
     assert_equal(Array, kp3.class)
     kp3.each {|kp|
       assert_equal(KeyPoint, kp.class)
     }
-    assert_equal(13, kp3.size)
+    assert_in_delta(13, kp3.size, 13 * 0.1)
 
     assert_raise(TypeError) {
       @detector1.detect(DUMMY_OBJ)
