@@ -103,7 +103,7 @@ rb_detect(int argc, VALUE *argv, VALUE self)
 
   size_t size = keypoints.size();
   VALUE kp_result = rb_ary_new2(size);
-  for (int i = 0; i < size; ++i) {
+  for (size_t i = 0; i < size; ++i) {
     rb_ary_push(kp_result, cKeyPoint::new_object(keypoints[i]));
   }
   return kp_result;
