@@ -14,34 +14,55 @@
  * Feature detector
  */
 __NAMESPACE_BEGIN_OPENCV
+
+class RbFastFeatureDetector : public RbFeatureDetector {
+public:
+  RbFastFeatureDetector(int threshold = 1, int nonmax_suppression = 1) {
+    detector = new cv::FastFeatureDetector(threshold, nonmax_suppression);
+  }
+
+  size_t sizeof_class() {
+    return sizeof(RbFastFeatureDetector);
+  }
+};
+
+inline RbFastFeatureDetector*
+RB_FASTFEATUREDETECTOR(VALUE object)
+{
+  RbFastFeatureDetector *ptr;
+  Data_Get_Struct(object, RbFastFeatureDetector, ptr);
+  return ptr;
+}
+
+inline cv::FastFeatureDetector*
+FASTFEATUREDETECTOR(VALUE object)
+{
+  return dynamic_cast<cv::FastFeatureDetector*> (RB_FASTFEATUREDETECTOR(object)->detector);
+}
+
+inline cv::FastFeatureDetector*
+FASTFEATUREDETECTOR_WITH_CHECK(VALUE object)
+{
+  if (!rb_obj_is_kind_of(object, cFastFeatureDetector::rb_class()))
+    raise_typeerror(object, cFastFeatureDetector::rb_class());
+  return FASTFEATUREDETECTOR(object);
+}
+
 __NAMESPACE_BEGIN_FASTFEATUREDETECTOR
 
+RbFastFeatureDetector *rbFastFeatureDetector;
 VALUE rb_klass;
-    
+
 VALUE
 rb_class()
 {
   return rb_klass;
 }
 
-void
-fastfeaturedetector_free(rbFastFeatureDetector *ptr)
-{
-  if (ptr) {
-    if (ptr->is_created_using_constructor()) {
-      delete ptr;
-    }
-    else {
-      rbFastFeatureDetector::free(ptr);
-    }
-  }
-}
-
 VALUE
 rb_allocate(VALUE klass)
 {
-  rbFastFeatureDetector *sval = rbFastFeatureDetector::alloc();
-  return Data_Wrap_Struct(rb_klass, NULL, fastfeaturedetector_free, sval);
+  return rbFastFeatureDetector->allocate(klass);
 }
 
 void
@@ -54,6 +75,7 @@ define_ruby_class()
    *
    * note: this comment is used by rdoc.
    */
+  rbFastFeatureDetector = new RbFastFeatureDetector();
   VALUE opencv = rb_module_opencv();
   // VALUE featuredetector = mFeatureDetector::rb_module();
   // rb_include_module(rb_klass, featuredetector);
@@ -76,8 +98,8 @@ rb_initialize(int argc, VALUE *argv, VALUE self)
   VALUE threshold, nonmax_suppression;
   rb_scan_args(argc, argv, "02", &threshold, &nonmax_suppression);
   try {
-    rbFastFeatureDetector *ptr = RB_FASTFEATUREDETECTOR(self);
-    new(ptr) rbFastFeatureDetector(IF_INT(threshold, 1), IF_BOOL(nonmax_suppression, 1, 0, 1));
+    RbFastFeatureDetector *ptr = RB_FASTFEATUREDETECTOR(self);
+    new(ptr) RbFastFeatureDetector(IF_INT(threshold, 1), IF_BOOL(nonmax_suppression, 1, 0, 1));
   }
   catch (cv::Exception& e) {
     raise_cverror(e);

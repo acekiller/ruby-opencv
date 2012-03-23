@@ -16,10 +16,37 @@
 #define __NAMESPACE_END_FEATUREDETECTOR }
 
 __NAMESPACE_BEGIN_OPENCV
+
+class RbFeatureDetector {
+  int _is_legal;
+ public:
+  cv::FeatureDetector *detector;
+  
+  RbFeatureDetector() {
+    _is_legal = 1;
+  }
+
+  ~RbFeatureDetector() {
+    detector->~FeatureDetector();
+  }
+
+  int is_created_using_constructor() {
+    return _is_legal;
+  }
+
+  static void featuredetector_free(RbFeatureDetector *ptr);
+  VALUE allocate(VALUE klass);
+
+ private:
+  /*
+   * return sizeof(DerivedClass);
+   */
+  virtual size_t sizeof_class() = 0;
+};
+
 __NAMESPACE_BEGIN_FEATUREDETECTOR
 
 VALUE rb_module();
-
 void define_ruby_module();
 
 __NAMESPACE_END_FEATUREDETECTOR

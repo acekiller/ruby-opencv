@@ -14,6 +14,28 @@
  * Feature detector
  */
 __NAMESPACE_BEGIN_OPENCV
+
+void
+RbFeatureDetector::featuredetector_free(RbFeatureDetector *ptr)
+{
+  if (ptr) {
+    if (ptr->is_created_using_constructor()) {
+      delete ptr;
+    }
+    else {
+      ruby_xfree(ptr);
+    }
+  }
+}
+
+VALUE
+RbFeatureDetector::allocate(VALUE klass)
+{
+  RbFeatureDetector *sval = (RbFeatureDetector*)ruby_xmalloc(sizeof_class());
+  sval->_is_legal = 0;
+  return Data_Wrap_Struct(klass, NULL, &featuredetector_free, sval);
+}
+
 __NAMESPACE_BEGIN_FEATUREDETECTOR
 
 VALUE module;
