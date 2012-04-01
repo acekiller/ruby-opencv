@@ -24,7 +24,17 @@ public:
   size_t sizeof_class() {
     return sizeof(RbFastFeatureDetector);
   }
+
+  cv::FeatureDetector* value_to_featuredetector(VALUE object);
 };
+
+cv::FeatureDetector*
+RbFastFeatureDetector::value_to_featuredetector(VALUE object)
+{
+  RbFastFeatureDetector *ptr;
+  Data_Get_Struct(object, RbFastFeatureDetector, ptr);
+  return dynamic_cast<cv::FastFeatureDetector*> (ptr->detector);
+}
 
 inline RbFastFeatureDetector*
 RB_FASTFEATUREDETECTOR(VALUE object)
@@ -110,26 +120,7 @@ rb_initialize(int argc, VALUE *argv, VALUE self)
 VALUE
 rb_detect(int argc, VALUE *argv, VALUE self)
 {
-  VALUE image, mask;
-  rb_scan_args(argc, argv, "11", &image, &mask);
-  cv::FeatureDetector *ptr = FASTFEATUREDETECTOR(self);
-  std::vector<cv::KeyPoint> keypoints;
-  cv::Mat mat(CVMAT_WITH_CHECK(image));
-
-  if (NIL_P(mask)) {
-    ptr->detect(mat, keypoints);
-  }
-  else {
-    cv::Mat mask_mat(MASK(mask));
-    ptr->detect(mat, keypoints, mask_mat);
-  }
-  
-  size_t size = keypoints.size();
-  VALUE kp_result = rb_ary_new2(size);
-  for (size_t i = 0; i < size; ++i) {
-    rb_ary_push(kp_result, cKeyPoint::new_object(keypoints[i]));
-  }
-  return kp_result;
+  return rbFastFeatureDetector->detect(argc, argv, self);
 }
 
 __NAMESPACE_END_FASTFEATUREDETECTOR

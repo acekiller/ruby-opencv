@@ -36,6 +36,31 @@ RbFeatureDetector::allocate(VALUE klass)
   return Data_Wrap_Struct(klass, NULL, &featuredetector_free, sval);
 }
 
+VALUE
+RbFeatureDetector::detect(int argc, VALUE *argv, VALUE self)
+{
+  VALUE image, mask;
+  rb_scan_args(argc, argv, "11", &image, &mask);
+  cv::FeatureDetector *ptr = value_to_featuredetector(self);
+  std::vector<cv::KeyPoint> keypoints;
+  cv::Mat mat(CVMAT_WITH_CHECK(image));
+
+  if (NIL_P(mask)) {
+    ptr->detect(mat, keypoints);
+  }
+  else {
+    cv::Mat mask_mat(MASK(mask));
+    ptr->detect(mat, keypoints, mask_mat);
+  }
+
+  size_t size = keypoints.size();
+  VALUE kp_result = rb_ary_new2(size);
+  for (size_t i = 0; i < size; ++i) {
+    rb_ary_push(kp_result, cKeyPoint::new_object(keypoints[i]));
+  }
+  return kp_result;
+}
+
 __NAMESPACE_BEGIN_FEATUREDETECTOR
 
 VALUE module;

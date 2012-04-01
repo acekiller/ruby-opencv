@@ -36,12 +36,11 @@ class RbFeatureDetector {
 
   static void featuredetector_free(RbFeatureDetector *ptr);
   VALUE allocate(VALUE klass);
+  VALUE detect(int argc, VALUE *argv, VALUE self);
 
  private:
-  /*
-   * return sizeof(DerivedClass);
-   */
-  virtual size_t sizeof_class() = 0;
+  virtual size_t sizeof_class() = 0; // -> return sizeof(DerivedClass);
+  virtual cv::FeatureDetector* value_to_featuredetector(VALUE object) = 0;
 };
 
 __NAMESPACE_BEGIN_FEATUREDETECTOR
