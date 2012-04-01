@@ -37,6 +37,8 @@ class RbFeatureDetector {
   static void featuredetector_free(RbFeatureDetector *ptr);
   VALUE allocate(VALUE klass);
   VALUE detect(int argc, VALUE *argv, VALUE self);
+  VALUE detect_single(VALUE _images, VALUE _masks, VALUE self);
+  VALUE detect_multi(VALUE _images, VALUE _masks, VALUE self);
 
  private:
   virtual size_t sizeof_class() = 0; // -> return sizeof(DerivedClass);
