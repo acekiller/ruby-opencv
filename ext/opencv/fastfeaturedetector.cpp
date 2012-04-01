@@ -117,6 +117,15 @@ rb_initialize(int argc, VALUE *argv, VALUE self)
   return self;
 }
 
+/*
+ * call-seq:
+ *   detect(image[, mask]) -> Array<KeyPoint>
+ *
+ * Detect keypoints in an image
+ *
+ * <i>image</i> (CvMat) - The image.
+ * <i>mask</i> (CvMat) - Mask specifying where to look for keypoints (optional). Must be a matrix with non-zero values in the region of interest.
+ */
 VALUE
 rb_detect(int argc, VALUE *argv, VALUE self)
 {
