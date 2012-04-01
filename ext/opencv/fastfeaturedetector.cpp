@@ -120,11 +120,16 @@ rb_initialize(int argc, VALUE *argv, VALUE self)
 /*
  * call-seq:
  *   detect(image[, mask]) -> Array<KeyPoint>
+ *   detect(images[, masks]) -> Array<Array<KeyPoint>>
  *
- * Detect keypoints in an image
+ * Detect keypoints in an image (first variant) or image set (second variant).
  *
  * <i>image</i> (CvMat) - The image.
  * <i>mask</i> (CvMat) - Mask specifying where to look for keypoints (optional). Must be a matrix with non-zero values in the region of interest.
+ *
+ *
+ * <i>images</i> (Array<CvMat>) - Images set.
+ * <i>masks</i> (Array<CvMat>) - Masks for each input image specifying where to look for keypoints (optional). masks[i] is a mask for images[i]. Each element of masks vector must be a char matrix with non-zero values in the region of interest.
  */
 VALUE
 rb_detect(int argc, VALUE *argv, VALUE self)
